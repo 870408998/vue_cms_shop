@@ -2,7 +2,7 @@
 	<div>
 		<!--面包屑导航区-->
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+		  <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
 		  <el-breadcrumb-item>用户管理</el-breadcrumb-item>
 		  <el-breadcrumb-item>用户列表</el-breadcrumb-item>
 		</el-breadcrumb>
@@ -13,7 +13,7 @@
 			<el-row :gutter="20">
 				<el-col :span="7">
 					<el-input placeholder="请输入内容"
-						v-model="queryInfo.query" clearable 
+						v-model="querInfo.query" clearable 
 						@clear="getUserList">
 		   			<el-button slot="append" 
 		   				icon="el-icon-search"
@@ -62,9 +62,9 @@
 			<el-pagination
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
-	      :current-page="queryInfo.pagenum"
+	      :current-page="querInfo.pagenum"
 	      :page-sizes="[1, 2, 5, 10]"
-	      :page-size="queryInfo.pagesize"
+	      :page-size="querInfo.pagesize"
 	      layout="total, sizes, prev, pager, next, jumper"
 	      :total="total">
 	    </el-pagination>
@@ -181,7 +181,7 @@
 			
 			return{
 				//获取用户列表的参数对象
-				queryInfo:{
+				querInfo:{
 					query:'',
 					//当前的页数
 					pagenum:1,
@@ -292,7 +292,7 @@
 		methods:{
 			async getUserList(){
 				const {data:res} = await this.$http.get('users',{ 
-					params:this.queryInfo 
+					params:this.querInfo 
 				})
 				if(res.meta.status !== 200){
 					return	this.$message.error("获取用户列表失败") 
@@ -304,12 +304,12 @@
 			//监听pagesize改变的事件
 			handleSizeChange(newSize){
 				console.log(newSize)
-				this.queryInfo.pagesize = newSize
+				this.querInfo.pagesize = newSize
 				this.getUserList()
 			},
 			//监听页码值改变的事件
 			handleCurrentChange(newPage){
-				this.queryInfo.pagenum = newPage
+				this.querInfo.pagenum = newPage
 				this.getUserList()
 			},
 			//监听switch开关状态的改变
